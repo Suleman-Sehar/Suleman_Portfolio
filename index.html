@@ -146,17 +146,26 @@
             50% { transform: scale(1.15); opacity: 0.85; }
         }
 
-        /* ===== NAVBAR ===== */
-        .navbar {
+        /* ===== LEFT SIDEBAR ===== */
+        .left-sidebar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 1000;
-            padding: 1.2rem 5%;
+            width: 180px;
+            height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 24px 16px;
+            z-index: 1000;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 20px;
             transition: var(--transition);
             background: transparent;
         }
@@ -164,9 +173,10 @@
         .navbar.scrolled {
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            background: rgba(5, 11, 26, 0.9);
-            border-bottom: 1px solid rgba(124, 58, 237, 0.3);
-            box-shadow: 0 4px 30px rgba(124, 58, 237, 0.1);
+            background: rgba(5, 11, 26, 0.72);
+            border-left: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 0 18px 18px 0;
+            box-shadow: 4px 0 30px rgba(124, 58, 237, 0.1);
         }
 
         .nav-logo {
@@ -182,8 +192,11 @@
 
         .nav-links {
             display: flex;
-            gap: 2.2rem;
-            align-items: center;
+            flex-direction: column;
+            gap: 14px;
+            align-items: flex-start;
+            margin: 0;
+            padding: 0;
         }
 
         .nav-links a {
@@ -223,6 +236,11 @@
             box-shadow: 0 0 12px var(--accent-cyan);
         }
 
+        body > section,
+        body > footer {
+            padding-left: calc(180px + 5%);
+        }
+
         /* Hamburger */
         .hamburger {
             display: none;
@@ -233,6 +251,7 @@
             padding: 5px;
             background: none;
             border: none;
+            margin-top: auto;
         }
 
         .hamburger span {
@@ -294,12 +313,41 @@
 
         /* ===== RESPONSIVE NAV ===== */
         @media (max-width: 768px) {
+            .left-sidebar {
+                width: 100%;
+                height: auto;
+                padding: 16px 4%;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                background: rgba(5, 11, 26, 0.9);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                border-right: none;
+                border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+            }
+
+            .navbar {
+                margin-top: 0;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 12px;
+            }
+
             .nav-links {
                 display: none;
             }
 
             .hamburger {
                 display: flex;
+                margin-top: 0;
+            }
+
+            body > section,
+            body > footer {
+                padding-left: 5%;
+                padding-right: 5%;
             }
 
             body {
@@ -1812,24 +1860,26 @@
     <!-- Custom Cursor Glow -->
     <div id="cursor-glow"></div>
 
-    <!-- Navbar -->
-    <nav class="navbar" id="navbar">
+    <!-- Left Sidebar -->
+    <div class="left-sidebar">
         <a href="#home" class="nav-logo">SS</a>
-        <ul class="nav-links">
-            <li><a href="#home" class="active">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#education">Education</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-    </nav>
+        <nav class="navbar" id="navbar">
+            <ul class="nav-links">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </div>
 
     <!-- Mobile Drawer -->
     <div class="mobile-drawer" id="mobileDrawer">
@@ -2488,7 +2538,7 @@
                 </div>
             </div>
 
-            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contactForm">
+            <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contactForm" onsubmit="handleSubmit(event)">
                 <div class="form-group">
                     <input type="text" name="name" placeholder="Your Full Name" required>
                 </div>
