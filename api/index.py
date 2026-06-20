@@ -1,5 +1,6 @@
 import os
 import re
+from html import escape
 
 import resend
 from fastapi import FastAPI, HTTPException
@@ -7,10 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 
-PORTFOLIO_CONTACT_EMAIL = os.environ.get(
-    "PORTFOLIO_CONTACT_EMAIL",
-    "solemanseher@gmail.com",
-)
+PORTFOLIO_CONTACT_EMAIL = "solemansehar@gmail.com"
 
 
 class ContactForm(BaseModel):
@@ -56,13 +54,14 @@ async def contact(payload: ContactForm) -> dict[str, str | bool]:
             {
                 "from": "Portfolio Contact <onboarding@resend.dev>",
                 "to": [PORTFOLIO_CONTACT_EMAIL],
+                "reply_to": payload.email,
                 "subject": f"New message from {payload.name}",
                 "html": f"""
                 <h2>New portfolio message</h2>
-                <p><strong>Name:</strong> {payload.name}</p>
-                <p><strong>Email:</strong> {payload.email}</p>
+                <p><strong>Name:</strong> {escape(payload.name)}</p>
+                <p><strong>Email:</strong> {escape(payload.email)}</p>
                 <p><strong>Message:</strong></p>
-                <p>{payload.message}</p>
+                <p>{escape(payload.message)}</p>
                 """,
             }
         )
@@ -72,6 +71,7 @@ async def contact(payload: ContactForm) -> dict[str, str | bool]:
             detail={"message": "Missing RESEND_API_KEY environment variable."},
         ) from exc
     except Exception as exc:
+        print(f"Resend send failed: {exc}")
         raise HTTPException(
             status_code=500,
             detail={"message": "Failed to send message. Please try again later."},
