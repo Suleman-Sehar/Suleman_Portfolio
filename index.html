@@ -2119,6 +2119,8 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script>emailjs.init("nrJPpcWw1psSXS8aG");</script>
 </head>
 <body>
 
@@ -3152,40 +3154,27 @@
         }
 
         try {
-            const res = await fetch('/api/contact', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    name: name.value.trim(),
-                    email: email.value.trim(),
-                    message: message.value.trim()
-                })
+            await emailjs.send("service_17d664f", "template_68akbhs", {
+                from_name: name.value.trim(),
+                from_email: email.value.trim(),
+                message: message.value.trim()
             });
-            const data = await res.json().catch(() => ({}));
 
-            if (res.ok) {
-                const toast = document.getElementById('toast');
-                toast.textContent = 'Thank you! Your message has been sent successfully.';
-                toast.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-                toast.classList.add('show');
+            const toast = document.getElementById('toast');
+            toast.textContent = 'Thank you! Your message has been sent successfully.';
+            toast.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
                 setTimeout(() => {
-                    toast.classList.remove('show');
-                    setTimeout(() => {
-                        toast.textContent = "Message sent! I'll get back to you soon 🚀";
-                        toast.style.background = 'linear-gradient(135deg, #7c3aed, #06b6d4)';
-                    }, 400);
-                }, 3000);
-                form.reset();
-            } else {
-                const toast = document.getElementById('toast');
-                toast.textContent = data.message || 'Something went wrong. Please try again.';
-                toast.style.background = '#ef4444';
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            }
+                    toast.textContent = "Message sent! I'll get back to you soon 🚀";
+                    toast.style.background = 'linear-gradient(135deg, #7c3aed, #06b6d4)';
+                }, 400);
+            }, 3000);
+            form.reset();
         } catch (err) {
             const toast = document.getElementById('toast');
-            toast.textContent = 'Network error. Please try again.';
+            toast.textContent = 'Something went wrong. Please try again.';
             toast.style.background = '#ef4444';
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
