@@ -71,10 +71,15 @@ async def contact(payload: ContactForm) -> dict[str, str | bool]:
             detail={"message": "Missing RESEND_API_KEY environment variable."},
         ) from exc
     except Exception as exc:
-        print(f"Resend send failed: {exc}")
+        error_type = exc.__class__.__name__
+        error_message = str(exc)
+        print(f"Resend send failed: {error_type}: {error_message}")
         raise HTTPException(
             status_code=500,
-            detail={"message": "Failed to send message. Please try again later."},
+            detail={
+                "message": "Failed to send message. Please try again later.",
+                "error": error_message,
+            },
         ) from exc
 
     return {"success": True, "message": "Message sent successfully."}
