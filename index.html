@@ -16,7 +16,6 @@
       --bg: #0B1426;
       --bg-alt: #0F1B33;
       --card: #13203a;
-      --card-hover: #162544;
       --border: rgba(255,255,255,0.08);
       --text: #F1F5F9;
       --muted: #94A3B8;
@@ -95,7 +94,7 @@
     .hero-photo {
       width: 320px; height: 320px; border-radius: 16px; object-fit: cover;
       border: 1px solid var(--border); box-shadow: var(--shadow); margin-left: auto;
-      background: var(--card);
+      background: var(--card); transform: scaleX(-1);
     }
     .photo-fallback {
       width: 320px; height: 320px; border-radius: 16px; margin-left: auto;
@@ -105,8 +104,9 @@
     }
 
     .about { background: var(--bg-alt); }
-    .about-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: center; }
+    .about-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: start; }
     .about p { color: var(--muted); font-size: 1.05rem; margin-bottom: 16px; }
+    .about p:last-child { margin-bottom: 0; }
     .about-card {
       background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
       padding: 28px; box-shadow: var(--shadow);
@@ -115,6 +115,18 @@
     .about-list li { color: var(--muted); padding: 8px 0; border-bottom: 1px solid var(--border); }
     .about-list li:last-child { border-bottom: 0; }
 
+    .glance-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 48px; }
+    .glance-tile {
+      display: flex; flex-direction: column;
+      background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 24px; box-shadow: var(--shadow);
+    }
+    .glance-value {
+      color: var(--accent); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em;
+      line-height: 1.25; margin-bottom: 10px; overflow-wrap: break-word;
+    }
+    .glance-label { color: var(--muted); font-size: 0.9rem; margin-top: auto; }
+
     .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
     .skill-card {
       background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
@@ -122,14 +134,19 @@
     }
     .skill-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: rgba(91,143,185,0.35); }
     .skill-card h3 { font-size: 1.1rem; margin-bottom: 20px; color: var(--white); }
-    .skill-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .skill-item { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 0.95rem; }
-    .skill-item i { font-size: 1.4rem; }
-    .skill-item img { width: 22px; height: 22px; object-fit: contain; filter: grayscale(20%); }
-    .icon-fallback {
-      width: 22px; height: 22px; border-radius: 6px; background: rgba(91,143,185,0.2);
-      color: var(--accent); font-size: 0.65rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center;
+    .skill-items { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; grid-auto-rows: 1fr; }
+    .skill-item {
+      display: flex; align-items: center; gap: 10px; min-height: 26px;
+      color: var(--muted); font-size: 0.95rem; line-height: 1.35;
     }
+    .skill-icon {
+      flex: 0 0 18px; width: 18px; height: 18px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--accent);
+    }
+    .skill-icon i { display: block; font-size: 18px; line-height: 1; }
+    .skill-icon svg { display: block; width: 18px; height: 18px; }
+    .skill-item > span:last-child { min-width: 0; overflow-wrap: break-word; }
 
     .projects { background: var(--bg-alt); }
     .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
@@ -141,12 +158,21 @@
     .project-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: rgba(91,143,185,0.35); }
     .project-media { height: 180px; background: #0a1628; border-bottom: 1px solid var(--border); overflow: hidden; }
     .project-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .project-media.media-placeholder {
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, #0a1628 0%, #12294a 55%, #1b3f63 100%);
+    }
+    .project-media.media-placeholder svg { width: 48px; height: 48px; color: var(--accent); }
     .project-body { padding: 22px; display: flex; flex-direction: column; flex: 1; }
+    .card-label {
+      color: var(--accent); font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px;
+    }
     .project-body h3 { font-size: 1.1rem; margin-bottom: 8px; }
-    .project-body p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; flex: 1; }
+    .project-body p { color: var(--muted); font-size: 0.95rem; margin-bottom: 14px; flex: 1; overflow-wrap: break-word; }
     .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
     .tag { font-size: 0.75rem; color: var(--accent); background: rgba(91,143,185,0.12); padding: 4px 10px; border-radius: 999px; font-weight: 500; }
-    .project-links { display: flex; gap: 10px; }
+    .project-links { display: flex; flex-wrap: wrap; gap: 10px; }
     .project-links a { font-size: 0.875rem; font-weight: 600; color: var(--text); padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; transition: .2s; }
     .project-links a:hover { background: rgba(255,255,255,0.04); color: var(--white); }
 
@@ -195,6 +221,7 @@
       .hero-visual { order: -1; }
       .skills-grid { grid-template-columns: 1fr 1fr; }
       .projects-grid { grid-template-columns: 1fr 1fr; }
+      .glance-grid { grid-template-columns: 1fr 1fr; }
     }
     @media (max-width: 720px) {
       .nav-links { display: none; }
@@ -203,6 +230,7 @@
       .hero { padding: 80px 0 64px; min-height: auto; }
       .skills-grid, .projects-grid { grid-template-columns: 1fr; }
       .skill-items { grid-template-columns: 1fr 1fr; }
+      .glance-grid { grid-template-columns: 1fr; }
       .footer-inner { flex-direction: column; text-align: center; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -250,7 +278,7 @@
           </div>
         </div>
         <div class="hero-visual reveal">
-          <img src="images/about.png" alt="Portrait of Suleman Sehar" class="hero-photo" style="object-position: center top;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+          <img src="images/about.png" alt="Portrait of Suleman Sehar" class="hero-photo" width="320" height="320" decoding="async" style="object-position: center top;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
           <div class="photo-fallback" aria-hidden="true">SS</div>
         </div>
       </div>
@@ -261,24 +289,36 @@
         <p class="eyebrow reveal">About</p>
         <h2 class="section-title reveal">Professional Summary</h2>
         <div class="about-grid">
-          <div class="about-visual reveal">
-            <img src="images/Profile_photo.png" alt="Portrait of Suleman Sehar" class="hero-photo" style="margin-left:0; object-position: center top;" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
-            <div class="photo-fallback" style="margin-left:0;" aria-hidden="true">SS</div>
+          <div class="reveal">
+            <p>AI / LLM Engineer focused on designing and delivering Generative AI solutions, agentic workflows, and retrieval-augmented generation pipelines. I combine strong engineering fundamentals with practical product thinking to build systems that are accurate, maintainable, and aligned with business goals.</p>
+            <p>Experienced across modern web stacks and AI tooling, with an emphasis on clean architecture, dependable integrations, and clear communication from prototype to production.</p>
           </div>
-          <div>
-            <div class="reveal">
-              <p>AI / LLM Engineer focused on designing and delivering Generative AI solutions, agentic workflows, and retrieval-augmented generation pipelines. I combine strong engineering fundamentals with practical product thinking to build systems that are accurate, maintainable, and aligned with business goals.</p>
-              <p>Experienced across modern web stacks and AI tooling, with an emphasis on clean architecture, dependable integrations, and clear communication from prototype to production.</p>
-            </div>
-            <div class="about-card reveal" style="margin-top: 24px;">
-              <h3>Focus Areas</h3>
-              <ul class="about-list">
-                <li>Generative AI applications and LLM-powered features</li>
-                <li>Agentic systems, orchestration, and tool use</li>
-                <li>RAG pipelines, evaluation, and knowledge integration</li>
-                <li>Full-stack delivery with performance and usability in mind</li>
-              </ul>
-            </div>
+          <div class="about-card reveal">
+            <h3>Focus Areas</h3>
+            <ul class="about-list">
+              <li>Generative AI applications and LLM-powered features</li>
+              <li>Agentic systems, orchestration, and tool use</li>
+              <li>RAG pipelines, evaluation, and knowledge integration</li>
+              <li>Full-stack delivery with performance and usability in mind</li>
+            </ul>
+          </div>
+        </div>
+        <div class="glance-grid">
+          <div class="glance-tile reveal">
+            <span class="glance-value">4</span>
+            <span class="glance-label">LLM-powered projects built</span>
+          </div>
+          <div class="glance-tile reveal">
+            <span class="glance-value">5</span>
+            <span class="glance-label">End-to-end projects on GitHub</span>
+          </div>
+          <div class="glance-tile reveal">
+            <span class="glance-value">Python · FastAPI · Next.js</span>
+            <span class="glance-label">Core stack</span>
+          </div>
+          <div class="glance-tile reveal">
+            <span class="glance-value">Evaluation-first</span>
+            <span class="glance-label">Baselines, metrics and guardrails</span>
           </div>
         </div>
       </div>
@@ -293,34 +333,34 @@
           <div class="skill-card reveal">
             <h3>AI / LLM &amp; Agents</h3>
             <div class="skill-items">
-              <div class="skill-item"><i class="devicon-python-plain colored" aria-hidden="true"></i><span>Python</span></div>
-              <div class="skill-item"><span class="icon-fallback">AI</span><span>LLM Integration</span></div>
-              <div class="skill-item"><span class="icon-fallback">AG</span><span>Agentic Systems</span></div>
-              <div class="skill-item"><span class="icon-fallback">RG</span><span>RAG Pipelines</span></div>
-              <div class="skill-item"><span class="icon-fallback">PE</span><span>Prompt Engineering</span></div>
-              <div class="skill-item"><span class="icon-fallback">EV</span><span>Evaluation &amp; Tuning</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-python-plain colored"></i></span><span>Python</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><rect x="9.5" y="9.5" width="5" height="5" rx="1"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/></svg></span><span>LLM Integration</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4.5"/><circle cx="12" cy="3.2" r="1.2"/><path d="M9 13h.01M15 13h.01"/><path d="M9.5 16.5h5"/></svg></span><span>Agentic Systems</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="10" cy="6" rx="6" ry="2.5"/><path d="M4 6v6c0 1.4 2.7 2.5 6 2.5 1.1 0 2.2-.1 3.1-.4"/><path d="M4 12v6c0 1.4 2.7 2.5 6 2.5.6 0 1.2 0 1.8-.1"/><circle cx="16.5" cy="16.5" r="3.4"/><path d="M19 19l2.4 2.4"/></svg></span><span>RAG Pipelines</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 15a2 2 0 0 1-2 2H8.5L4 20.5V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2z"/><path d="M9.5 9 7.5 11l2 2M14.5 9l2 2-2 2"/></svg></span><span>Prompt Engineering</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h9M17 17h3"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="15" cy="17" r="2"/></svg></span><span>Evaluation &amp; Tuning</span></div>
             </div>
           </div>
           <div class="skill-card reveal">
             <h3>MERN / Full-Stack</h3>
             <div class="skill-items">
-              <div class="skill-item"><i class="devicon-react-original colored" aria-hidden="true"></i><span>React</span></div>
-              <div class="skill-item"><i class="devicon-nextjs-plain" aria-hidden="true"></i><span>Next.js</span></div>
-              <div class="skill-item"><i class="devicon-nodejs-plain colored" aria-hidden="true"></i><span>Node.js</span></div>
-              <div class="skill-item"><i class="devicon-express-original" aria-hidden="true"></i><span>Express</span></div>
-              <div class="skill-item"><i class="devicon-mongodb-plain colored" aria-hidden="true"></i><span>MongoDB</span></div>
-              <div class="skill-item"><i class="devicon-typescript-plain colored" aria-hidden="true"></i><span>TypeScript</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-react-original colored"></i></span><span>React</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-nextjs-plain"></i></span><span>Next.js</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-nodejs-plain colored"></i></span><span>Node.js</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-express-original"></i></span><span>Express</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-mongodb-plain colored"></i></span><span>MongoDB</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-typescript-plain colored"></i></span><span>TypeScript</span></div>
             </div>
           </div>
           <div class="skill-card reveal">
             <h3>Tools &amp; Cloud</h3>
             <div class="skill-items">
-              <div class="skill-item"><i class="devicon-git-plain colored" aria-hidden="true"></i><span>Git</span></div>
-              <div class="skill-item"><i class="devicon-github-original" aria-hidden="true"></i><span>GitHub</span></div>
-              <div class="skill-item"><i class="devicon-vercel-original" aria-hidden="true"></i><span>Vercel</span></div>
-              <div class="skill-item"><i class="devicon-docker-plain colored" aria-hidden="true"></i><span>Docker</span></div>
-              <div class="skill-item"><i class="devicon-vscode-plain colored" aria-hidden="true"></i><span>VS Code</span></div>
-              <div class="skill-item"><span class="icon-fallback">API</span><span>REST APIs</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-git-plain colored"></i></span><span>Git</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-github-original"></i></span><span>GitHub</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true" style="color: var(--white);"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 3.6 2.4 20.4h19.2L12 3.6Z"/></svg></span><span>Vercel</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-docker-plain colored"></i></span><span>Docker</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><i class="devicon-vscode-plain colored"></i></span><span>VS Code</span></div>
+              <div class="skill-item"><span class="skill-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3v5M15 3v5"/><path d="M6 8h12v3.2a6 6 0 0 1-12 0z"/><path d="M12 17.2V21"/></svg></span><span>REST APIs</span></div>
             </div>
           </div>
         </div>
@@ -335,11 +375,11 @@
         <div class="projects-grid">
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/project1.svg" alt="Arrowstack internship project preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/ai-workflow-automation.png" alt="AI Workflow Automation preview" loading="lazy" decoding="async" width="2000" height="2000" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
-              <h3>Arrowstack Internship — AI Workflow Automation</h3>
-              <p>Contributed to AI-driven workflow automation during the Arrowstack internship, focusing on reliable task orchestration and practical LLM integration.</p>
+              <h3>AI Workflow Automation</h3>
+              <p>AI-driven workflow automation focused on reliable task orchestration and practical LLM integration.</p>
               <div class="tags"><span class="tag">Python</span><span class="tag">LLM APIs</span><span class="tag">Automation</span></div>
               <div class="project-links">
                 <a href="https://github.com/Suleman-Sehar" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -349,10 +389,10 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/project2.svg" alt="Arrowstack internship application preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/product-dashboard-build.png" alt="Product &amp; Dashboard Build preview" loading="lazy" decoding="async" width="1598" height="1205" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
-              <h3>Arrowstack Internship — Product &amp; Dashboard Build</h3>
+              <h3>Product &amp; Dashboard Build</h3>
               <p>Supported delivery of a data-focused web experience with structured components, clear UI states, and integration-ready architecture.</p>
               <div class="tags"><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">REST</span></div>
               <div class="project-links">
@@ -363,21 +403,21 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/Animation06.gif" alt="AI data insights project preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/Animation06.gif" alt="Whistle While You Wander family travel website preview" loading="lazy" decoding="async" width="1362" height="718" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
-              <h3>AI-Powered Data Insights</h3>
-              <p>Analytics-focused solution using AI-assisted processing to surface actionable insights and streamline reporting workflows.</p>
-              <div class="tags"><span class="tag">Python</span><span class="tag">Data Analysis</span><span class="tag">APIs</span></div>
+              <h3>Whistle While You Wander — Family Travel Planning Website</h3>
+              <p>A multi-page family travel planning website with sections for Disney vacations, family trips, Texas road trips and other destinations, plus About and Contact pages. Clean, responsive layout built to turn visitors into trip enquiries.</p>
+              <div class="tags"><span class="tag">Responsive Design</span><span class="tag">Multi-page Website</span><span class="tag">Travel</span></div>
               <div class="project-links">
-                <a href="https://github.com/Suleman-Sehar" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://whistle-while-you-wander-alpha.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
               </div>
             </div>
           </article>
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/Animation07.gif" alt="Automation project preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/intelligent-process-automation.png" alt="Intelligent Process Automation preview" loading="lazy" decoding="async" width="554" height="554" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
               <h3>Intelligent Process Automation</h3>
@@ -391,7 +431,7 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/Screenshot 2026-05-22 132031.jpg" alt="RAG pipeline project preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/rag-knowledge-assistant.png" alt="RAG Knowledge Assistant preview" loading="lazy" decoding="async" width="225" height="225" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
               <h3>RAG Knowledge Assistant</h3>
@@ -405,7 +445,7 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/luxtravel.gif" alt="LuxTravel website preview" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/luxtravel.gif" alt="LuxTravel website preview" loading="lazy" decoding="async" width="720" height="317" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
               <h3>LuxTravel — Premium Travel Agency Website</h3>
@@ -420,9 +460,10 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/support-triage.png" alt="Intelligent Support Triage pipeline diagram" loading="lazy" style="object-fit:contain;background:#0a1628;" onerror="this.style.display='none';">
+              <img src="images/support-triage.png" alt="Intelligent Support Triage pipeline diagram" loading="lazy" decoding="async" width="1200" height="630" style="object-fit:contain;background:#0a1628;" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
+              <p class="card-label">Arrowstack Internship</p>
               <h3>Intelligent Support Triage</h3>
               <p>An LLM-powered pipeline that classifies SaaS helpdesk tickets by issue type, urgency and routing team. PII is redacted before any model call, and low-confidence results are flagged for human review. Evaluated on synthetic tickets against a rules-based baseline, with 96.8% recall on high/critical urgency and a 6.8% human review rate.</p>
               <div class="tags"><span class="tag">Python</span><span class="tag">OpenAI API</span><span class="tag">Pydantic</span><span class="tag">Guardrails</span></div>
@@ -434,9 +475,10 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/document-assistant.png" alt="Document Understanding Assistant pipeline diagram" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/document-assistant.png" alt="Document Understanding Assistant pipeline diagram" loading="lazy" decoding="async" width="1200" height="630" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
+              <p class="card-label">Arrowstack Internship</p>
               <h3>Document Understanding Assistant</h3>
               <p>An LLM-powered assistant that reads invoices, purchase orders and contracts and returns the document type, schema-validated fields and a structured summary. Guardrails redact PII and check for prompt injection, and uncertain documents go to a human review queue. On the synthetic dev set it reaches 0.85 F1 on line items and 0.94 on parties, far above a rules-only baseline.</p>
               <div class="tags"><span class="tag">Python</span><span class="tag">LLM Extraction</span><span class="tag">Schema Validation</span><span class="tag">Guardrails</span></div>
@@ -448,14 +490,72 @@
 
           <article class="project-card reveal">
             <div class="project-media">
-              <img src="images/recommendation-prototype.png" alt="AI Recommendation Prototype pipeline diagram" loading="lazy" onerror="this.style.display='none';">
+              <img src="images/recommendation-prototype.png" alt="AI Recommendation Prototype pipeline diagram" loading="lazy" decoding="async" width="1200" height="630" onerror="this.style.display='none';">
             </div>
             <div class="project-body">
+              <p class="card-label">Arrowstack Internship</p>
               <h3>AI Recommendation Prototype</h3>
               <p>A course recommendation system for an e-learning platform that compares popularity, collaborative-filtering and content-based baselines with a hybrid blend and an LLM re-ranker. On synthetic data, the LLM re-ranker raised Hit Rate@10 from 4.71% (popularity baseline) to 6.52%. Works offline with fallbacks when no API key is present.</p>
               <div class="tags"><span class="tag">Python</span><span class="tag">Recommender Systems</span><span class="tag">LLM Re-ranking</span><span class="tag">Hybrid Filtering</span></div>
               <div class="project-links">
                 <a href="https://github.com/Suleman-Sehar/ai-recommendation-prototype" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <img src="images/todo-chatbot.gif" alt="TaskFlow AI todo chatbot demo" loading="lazy" decoding="async" width="760" height="333" onerror="this.style.display='none';">
+            </div>
+            <div class="project-body">
+              <h3>TaskFlow — AI Todo Chatbot</h3>
+              <p>A full-stack todo app with secure sign-in and a chat assistant that manages tasks in plain English, powered by Gemini. Next.js and FastAPI with a PostgreSQL database, strict per-user data isolation, a responsive light/dark UI, and 160+ automated tests.</p>
+              <div class="tags"><span class="tag">Next.js</span><span class="tag">FastAPI</span><span class="tag">Gemini AI</span><span class="tag">PostgreSQL</span></div>
+              <div class="project-links">
+                <a href="https://hackathon-todo-frontend-jade.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+                <a href="https://github.com/Suleman-Sehar/Hackathon-2-Phase-3" target="_blank" rel="noopener noreferrer">GitHub</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <img src="images/Animation07.gif" alt="Nike-style e-commerce storefront homepage" loading="lazy" decoding="async" width="1362" height="718" onerror="this.style.display='none';">
+            </div>
+            <div class="project-body">
+              <h3>Nike-Style E-commerce Storefront</h3>
+              <p>A responsive e-commerce storefront built as a design-practice clone, with featured products, category navigation for men, women and kids, a gear-up product section, a cart page and supporting pages.</p>
+              <div class="tags"><span class="tag">Next.js</span><span class="tag">React</span><span class="tag">E-commerce</span><span class="tag">Responsive</span></div>
+              <div class="project-links">
+                <a href="https://marketplace-hackathon-3-lac.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <img src="images/fuel-cell.png" alt="Fuel cell animated explainer" loading="lazy" decoding="async" width="1346" height="598" onerror="this.style.display='none';">
+            </div>
+            <div class="project-body">
+              <h3>Fuel Cell — Interactive Animated Explainer</h3>
+              <p>An interactive animation showing how a hydrogen fuel cell converts chemical energy into electricity, with play, pause and reset controls and a clear explanation of electrodes, electrolyte and emissions.</p>
+              <div class="tags"><span class="tag">Interactive Animation</span><span class="tag">Educational</span><span class="tag">Responsive</span></div>
+              <div class="project-links">
+                <a href="https://fuel-cell.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-media">
+              <img src="images/voltaic-cell.png.jpg" alt="Voltaic and Daniell cell animation" loading="lazy" decoding="async" width="1365" height="677" onerror="this.style.display='none';">
+            </div>
+            <div class="project-body">
+              <h3>Voltaic &amp; Daniell Cell — Animated Explanation</h3>
+              <p>A step-by-step animated explanation of Volta's battery and the Daniell cell, with play, pause and next/previous controls, ion movement diagrams and tooltips, fully responsive.</p>
+              <div class="tags"><span class="tag">Interactive Animation</span><span class="tag">Educational</span><span class="tag">Responsive</span></div>
+              <div class="project-links">
+                <a href="https://chemical-cell-voltaic-cell-daniel-c.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
               </div>
             </div>
           </article>
@@ -490,7 +590,7 @@
               </li>
               <li>
                 <span class="label">Vercel</span>
-                <a href="https://vercel.com/suleman-sehars-projects" target="_blank" rel="noopener noreferrer">https://vercel.com/suleman-sehars-projects</a>
+                <a href="https://suleman-portfolio-six.vercel.app" target="_blank" rel="noopener noreferrer">https://suleman-portfolio-six.vercel.app</a>
               </li>
             </ul>
             <div class="icon-links" aria-label="Social links">
@@ -500,7 +600,7 @@
               <a class="icon-link" href="https://www.linkedin.com/in/suleman-sehar-a60655106" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
               </a>
-              <a class="icon-link" href="https://vercel.com/suleman-sehars-projects" target="_blank" rel="noopener noreferrer" aria-label="Vercel">
+              <a class="icon-link" href="https://suleman-portfolio-six.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Vercel">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 20h18L12 4Z"/></svg>
               </a>
             </div>
@@ -538,7 +638,7 @@
         <a class="icon-link" href="https://www.linkedin.com/in/suleman-sehar-a60655106" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
         </a>
-        <a class="icon-link" href="https://vercel.com/suleman-sehars-projects" target="_blank" rel="noopener noreferrer" aria-label="Vercel">
+        <a class="icon-link" href="https://suleman-portfolio-six.vercel.app" target="_blank" rel="noopener noreferrer" aria-label="Vercel">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4 3 20h18L12 4Z"/></svg>
         </a>
       </div>
